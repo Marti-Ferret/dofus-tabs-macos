@@ -1,11 +1,11 @@
 # Dofus Tabs (macOS)
 
-![Dofus Tabs](docs/promo/readme-banner.png)
+![Dofus Tabs](site/public/promo/readme-banner.png)
 
 [![Licencia: MIT](https://img.shields.io/badge/Licencia-MIT-blue.svg)](LICENSE)
 ![Plataforma: macOS 13+](https://img.shields.io/badge/plataforma-macOS%2013%2B-lightgrey)
 
-**[Sitio web](https://marti-ferret.github.io/dofus-tabs-macos/)** · **[Descargar última release](../../releases/latest)**
+**[Sitio web](https://dofus-tabs-macos.vercel.app/)** · **[Descargar última release](../../releases/latest)**
 
 Organizador de ventanas multicuenta para Dofus, nativo de macOS. Proyecto de fan, sin afiliación con Ankama — ver la investigación de mercado y las decisiones de arquitectura en [research/market-research.md](research/market-research.md).
 
@@ -69,22 +69,24 @@ swift scripts/generate-icon.swift
 iconutil -c icns Resources/AppIcon.iconset -o Resources/AppIcon.icns
 ```
 
-Las imágenes de producto se generan igual, con `scripts/generate-promo-images.swift`, y se escriben en `site/public/promo/` (la web las copia tal cual al compilar, así que también acaban en `docs/promo/`):
+Las imágenes de producto se generan igual, con `scripts/generate-promo-images.swift`, y se escriben directamente en `site/public/promo/` (fuente única — el README las referencia desde ahí):
 - `readme-banner.png` — el banner de la cabecera de este README.
 - `github-social-preview.png` — para subir a mano en Settings → General → Social preview del repo de GitHub (no hay forma de automatizar esa subida por `gh` CLI).
 
 ## Web del proyecto (Astro)
 
-Landing page de una sola página en `site/` (Astro + Tailwind v4), pensada para GitHub Pages sirviendo desde `/docs`.
+Landing page de una sola página en `site/` (Astro + Tailwind v4), desplegada en Vercel: **https://dofus-tabs-macos.vercel.app/**. Cada push a `main` la redespliega sola (Vercel está conectado directamente al repo de GitHub, sin pasos manuales).
 
 ```bash
 cd site
-npm install        # solo la primera vez
-npm run dev         # servidor local con recarga en caliente
-npm run build        # compila y escribe el resultado en ../docs — hay que commitear docs/ después de tocar la web
+npm install    # solo la primera vez
+npm run dev     # servidor local con recarga en caliente
+npm run build    # compila a site/dist — solo para probar el build en local, Vercel lo hace solo en cada push
 ```
 
-`docs/` es el **output del build**, no se edita a mano. La web está en español (`/`), inglés (`/en/`) y francés (`/fr/`), con selector de idioma en la cabecera:
+Ajustes del proyecto en Vercel: **Root Directory = `site`**, resto (Framework Preset, Build/Output/Install Command) en automático — no hace falta tocar nada más ahí.
+
+La web está en español (`/`), inglés (`/en/`) y francés (`/fr/`), con selector de idioma en la cabecera:
 
 - `site/src/i18n/translations.ts` — todo el texto de las 3 versiones, en un único diccionario tipado (`SiteCopy`). Es el único sitio donde se edita contenido.
 - `site/src/components/Site.astro` — el layout/maquetación real, parametrizado por `lang`; no se toca para cambiar textos, solo estructura/estilos.
@@ -92,7 +94,7 @@ npm run build        # compila y escribe el resultado en ../docs — hay que com
 
 Para añadir un idioma nuevo a la web: añadir su entrada a `languages`/`translations` en `translations.ts`, y crear `site/src/pages/<código>/index.astro` igual que los existentes.
 
-Los enlaces "Descargar"/"Ver el código"/"GitHub"/"Licencia MIT" de `Site.astro` ya apuntan al repo real (`repoUrl` al principio del componente) — si el repo cambia de sitio algún día, es la única línea que hay que tocar. Para que la web se vea en `https://marti-ferret.github.io/dofus-tabs-macos/`, falta activar Pages una vez en Settings → Pages → Deploy from a branch → `/docs`.
+Los enlaces "Descargar"/"Ver el código"/"GitHub"/"Licencia MIT" de `Site.astro` apuntan al repo real (`repoUrl` al principio del componente) — si el repo cambia de sitio algún día, es la única línea que hay que tocar.
 
 La primera vez, macOS pedirá dos permisos en Ajustes del Sistema → Privacidad y Seguridad:
 
@@ -153,8 +155,7 @@ scripts/
   generate-icon.swift           — genera el iconset/.icns a partir de un símbolo del sistema
   generate-promo-images.swift   — genera el banner del README y la imagen social de GitHub
 research/market-research.md     — investigación de mercado y decisiones de stack
-site/                           — landing page del proyecto (Astro + Tailwind v4), fuente de docs/
-docs/                           — output del build de site/ (GitHub Pages sirve desde aquí)
+site/                           — landing page del proyecto (Astro + Tailwind v4), desplegada en Vercel
 ```
 
 ## Atajos por defecto

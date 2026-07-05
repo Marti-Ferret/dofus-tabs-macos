@@ -3,11 +3,10 @@ import { defineConfig } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
 
-// El build se escribe directamente en docs/, que es la carpeta que sirve
-// GitHub Pages (Settings → Pages → Deploy from a branch → /docs).
+// Desplegado en Vercel (Root Directory: site) — outDir por defecto (dist/),
+// Vercel lo detecta y sirve solo.
 // https://astro.build/config
 export default defineConfig({
-  outDir: '../docs',
   vite: {
     plugins: [tailwindcss()]
   }

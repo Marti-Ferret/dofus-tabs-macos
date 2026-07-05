@@ -4,3 +4,6 @@
 .DS_Store
 Resources/AppIcon.iconset/
 .claude/
+docs/
+site/dist/
+site/node_modules/
