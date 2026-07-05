@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #15131f;
+  --color-ink-2: #1c1930;
+  --color-paper: #f4efe7;
+  --color-paper-2: #ffffff;
+  --color-accent-a: #5c33d9;
+  --color-accent-b: #3388f2;
+  --color-key: #e8a33d;
+  --color-ink-soft: #b6b0cc;
+  --color-ink-faint: #837db0;
+  --color-line: rgba(182, 176, 204, 0.18);
+
+  --font-mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+  --font-serif: ui-serif, "New York", Georgia, "Times New Roman", serif;
+}

@@ -1,0 +1,31 @@
+/* Status bar menu */
+"menu.no_dofus_detected" = "No Dofus detected";
+"menu.excluded_suffix" = " (excluded)";
+"menu.arrange_windows" = "Arrange windows";
+"menu.settings" = "Settings…";
+"menu.refresh" = "Refresh";
+"menu.quit" = "Quit";
+
+/* Settings window */
+"settings.window_title" = "Dofus Tabs Settings";
+"settings.characters_detected" = "Characters detected";
+"settings.no_windows" = "No Dofus window detected.";
+"settings.launch_at_login" = "Launch Dofus Tabs at login";
+"settings.arrange_now" = "Arrange windows now";
+"settings.reset_hotkeys" = "Reset to default shortcuts";
+"settings.footer_note" = "Each character's toggle excludes it from the cycle and from direct shortcuts (handy for mules). Direct shortcuts are assigned by position: reordering or excluding someone can shift everyone else's key.";
+"settings.global_hotkeys" = "Global shortcuts";
+"settings.cycle_hotkey_label" = "Cycle to the next window";
+"settings.arrange_hotkey_label" = "Arrange windows on screen";
+"settings.excluded_from_rotation" = "excluded from rotation";
+
+/* Hotkey capture */
+"hotkey.recording_placeholder" = "Press a key…";
+
+/* Language */
+"settings.language_section" = "Language";
+"settings.language_system" = "Automatic (system language)";
+"language.restart_title" = "Restart to apply the language";
+"language.restart_message" = "Dofus Tabs needs to restart to display in the chosen language.";
+"language.restart_now" = "Restart now";
+"language.restart_later" = "Later";

@@ -1,0 +1,31 @@
+/* Menu de la barre de statut */
+"menu.no_dofus_detected" = "Aucun Dofus détecté";
+"menu.excluded_suffix" = " (exclu)";
+"menu.arrange_windows" = "Organiser les fenêtres";
+"menu.settings" = "Réglages…";
+"menu.refresh" = "Actualiser";
+"menu.quit" = "Quitter";
+
+/* Fenêtre des réglages */
+"settings.window_title" = "Réglages de Dofus Tabs";
+"settings.characters_detected" = "Personnages détectés";
+"settings.no_windows" = "Aucune fenêtre Dofus détectée.";
+"settings.launch_at_login" = "Lancer Dofus Tabs à l'ouverture de session";
+"settings.arrange_now" = "Organiser les fenêtres maintenant";
+"settings.reset_hotkeys" = "Rétablir les raccourcis par défaut";
+"settings.footer_note" = "L'interrupteur de chaque personnage l'exclut du cycle et des raccourcis directs (pratique pour les mules). Les raccourcis directs sont assignés par position : réordonner ou exclure quelqu'un peut décaler la touche des autres.";
+"settings.global_hotkeys" = "Raccourcis globaux";
+"settings.cycle_hotkey_label" = "Passer à la fenêtre suivante";
+"settings.arrange_hotkey_label" = "Organiser les fenêtres à l'écran";
+"settings.excluded_from_rotation" = "exclu de la rotation";
+
+/* Capture de raccourci */
+"hotkey.recording_placeholder" = "Appuyez sur une touche…";
+
+/* Langue */
+"settings.language_section" = "Langue";
+"settings.language_system" = "Automatique (langue du système)";
+"language.restart_title" = "Redémarrer pour appliquer la langue";
+"language.restart_message" = "Dofus Tabs doit redémarrer pour s'afficher dans la langue choisie.";
+"language.restart_now" = "Redémarrer maintenant";
+"language.restart_later" = "Plus tard";

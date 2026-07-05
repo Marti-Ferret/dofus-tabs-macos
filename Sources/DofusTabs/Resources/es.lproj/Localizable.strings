@@ -1,0 +1,31 @@
+/* Menú de la barra de estado */
+"menu.no_dofus_detected" = "No se ha detectado Dofus";
+"menu.excluded_suffix" = " (excluido)";
+"menu.arrange_windows" = "Organizar ventanas";
+"menu.settings" = "Ajustes…";
+"menu.refresh" = "Actualizar";
+"menu.quit" = "Salir";
+
+/* Ventana de Ajustes */
+"settings.window_title" = "Ajustes de Dofus Tabs";
+"settings.characters_detected" = "Personajes detectados";
+"settings.no_windows" = "No se ha detectado ninguna ventana de Dofus.";
+"settings.launch_at_login" = "Iniciar Dofus Tabs al abrir sesión";
+"settings.arrange_now" = "Organizar ventanas ahora";
+"settings.reset_hotkeys" = "Restablecer atajos por defecto";
+"settings.footer_note" = "El interruptor de cada personaje lo excluye del ciclo y de los atajos directos (útil para mules). Los atajos directos son por posición: si reordenas o excluyes a alguien, el resto puede desplazarse de tecla.";
+"settings.global_hotkeys" = "Atajos globales";
+"settings.cycle_hotkey_label" = "Ciclar a la siguiente ventana";
+"settings.arrange_hotkey_label" = "Organizar ventanas en pantalla";
+"settings.excluded_from_rotation" = "excluido de la rotación";
+
+/* Captura de atajos */
+"hotkey.recording_placeholder" = "Pulsa una tecla…";
+
+/* Idioma */
+"settings.language_section" = "Idioma";
+"settings.language_system" = "Automático (idioma del sistema)";
+"language.restart_title" = "Reiniciar para aplicar el idioma";
+"language.restart_message" = "Dofus Tabs necesita reiniciarse para mostrarse en el idioma elegido.";
+"language.restart_now" = "Reiniciar ahora";
+"language.restart_later" = "Más tarde";

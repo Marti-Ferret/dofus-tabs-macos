@@ -1,0 +1,300 @@
+---
+import '../styles/global.css';
+import { languages, translations, pathForLang, type Lang } from '../i18n/translations';
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = translations[lang];
+
+const langLabels: Record<Lang, string> = { es: "ES", en: "EN", fr: "FR" };
+
+const repoUrl = "https://github.com/Marti-Ferret/dofus-tabs-macos";
+const releasesUrl = `${repoUrl}/releases/latest`;
+---
+
+<html lang={lang}>
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<meta name="description" content={t.meta.description} />
+		<title>{t.meta.title}</title>
+	</head>
+	<body class="bg-ink text-paper font-serif antialiased leading-relaxed">
+		<header class="border-b border-line py-6">
+			<div class="wrap flex items-center justify-between">
+				<div class="flex items-center gap-2.5 font-mono font-bold text-[15px] tracking-wide">
+					<span class="w-6.5 h-6.5 rounded-lg bg-gradient-to-br from-accent-a to-accent-b grid place-items-center">
+						<svg viewBox="0 0 24 24" fill="none" class="w-3.5 h-3.5"><path d="M12 3l8 5-8 5-8-5 8-5z" fill="white"/><path d="M4 12l8 5 8-5" stroke="white" stroke-width="2" stroke-linecap="round"/><path d="M4 16.5l8 5 8-5" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+					</span>
+					DOFUS TABS
+				</div>
+				<nav class="font-mono text-[13px] flex items-center">
+					<a href="#funcionalidades" class="ml-5.5 text-ink-soft hover:text-paper">{t.nav.features}</a>
+					<a href="#requisitos" class="ml-5.5 text-ink-soft hover:text-paper">{t.nav.requirements}</a>
+					<a href={repoUrl} class="ml-5.5 text-ink-soft hover:text-paper">{t.nav.github}</a>
+					<span class="ml-5.5 flex items-center gap-1.5 border-l border-line pl-5.5">
+						{languages.map((code) => (
+							<a
+								href={pathForLang(code)}
+								class={code === lang ? "text-key" : "text-ink-faint hover:text-paper"}
+								aria-current={code === lang ? "page" : undefined}
+							>
+								{langLabels[code]}
+							</a>
+						))}
+					</span>
+				</nav>
+			</div>
+		</header>
+
+		<main>
+			<section class="wrap grid grid-cols-1 md:grid-cols-[1.05fr_0.95fr] gap-14 items-center pt-20 md:pt-22 pb-20 md:pb-24">
+				<div>
+					<span class="font-mono text-[13px] tracking-[0.08em] uppercase text-ink-faint">{t.hero.eyebrow}</span>
+					<h1 class="font-mono font-bold text-[32px] md:text-[44px] leading-[1.18] my-4 text-balance text-paper-2">
+						{t.hero.titlePre}<span class="accent-text">{t.hero.titleAccent}</span>{t.hero.titlePost}
+					</h1>
+					<p class="text-[18px] text-ink-soft max-w-[46ch] mb-7">
+						{t.hero.ledePre}
+						<span class="kbd">⌘1</span>–<span class="kbd">⌘9</span>{t.hero.ledePost}
+					</p>
+					<div class="flex flex-wrap gap-3.5">
+						<a href={releasesUrl} class="btn bg-gradient-to-br from-accent-a to-accent-b text-white shadow-[0_8px_24px_-8px_rgba(92,51,217,0.6)]">{t.hero.ctaDownload}</a>
+						<a href={repoUrl} class="btn border border-line text-paper hover:border-ink-soft">{t.hero.ctaCode}</a>
+					</div>
+					<p class="mt-4 text-[12.5px] font-mono text-ink-faint">{t.hero.fineprint}</p>
+				</div>
+
+				<div class="stack" id="stack">
+					<div class="win w1">
+						<div class="win-head">DT 4</div>
+						<div class="win-row"><span class="dot" style="background:#e8916a"></span><span class="win-name">Feca-Tank</span><span class="kbd kbd-sm">⌘1</span></div>
+					</div>
+					<div class="win w2">
+						<div class="win-head">DT 4</div>
+						<div class="win-row"><span class="dot" style="background:#6bbf95"></span><span class="win-name">Iop-Dps</span><span class="kbd kbd-sm">⌘2</span></div>
+					</div>
+					<div class="win w3">
+						<div class="win-head">DT 4</div>
+						<div class="win-row"><span class="dot" style="background:#e0b649"></span><span class="win-name">Eni-Heal</span><span class="kbd kbd-sm">⌘3</span></div>
+					</div>
+					<div class="win w4">
+						<div class="win-head">DT 4</div>
+						<div class="win-row"><span class="dot" style="background:#8f9ce8"></span><span class="win-name">Sram-Mule</span><span class="kbd kbd-sm">excl.</span></div>
+					</div>
+				</div>
+			</section>
+
+			<section id="problema" class="border-t border-line py-19">
+				<div class="wrap">
+					<div class="max-w-[56ch] mb-10">
+						<span class="font-mono text-[13px] tracking-[0.08em] uppercase text-ink-faint">{t.problema.eyebrow}</span>
+						<h2 class="font-mono text-[26px] text-paper-2 my-2.5 text-balance">{t.problema.title}</h2>
+						<p class="text-[16.5px] text-ink-soft">{t.problema.text}</p>
+					</div>
+					<div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-line border border-line rounded-2xl overflow-hidden">
+						<div class="bg-ink-2 p-5.5">
+							<div class="font-mono text-[30px] font-bold text-[#e8756a]">{t.problema.stat1Value}</div>
+							<p class="text-[14px] text-ink-soft mt-2">{t.problema.stat1Text}</p>
+						</div>
+						<div class="bg-ink-2 p-5.5">
+							<div class="font-mono text-[30px] font-bold text-[#e8756a]">{t.problema.stat2Value}</div>
+							<p class="text-[14px] text-ink-soft mt-2">{t.problema.stat2Text}</p>
+						</div>
+						<div class="bg-ink-2 p-5.5">
+							<div class="font-mono text-[30px] font-bold accent-text">{t.problema.stat3Value}</div>
+							<p class="text-[14px] text-ink-soft mt-2">{t.problema.stat3Text}</p>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section id="funcionalidades" class="border-t border-line py-19">
+				<div class="wrap">
+					<div class="max-w-[56ch] mb-10">
+						<span class="font-mono text-[13px] tracking-[0.08em] uppercase text-ink-faint">{t.features.eyebrow}</span>
+						<h2 class="font-mono text-[26px] text-paper-2 my-2.5 text-balance">{t.features.title}</h2>
+					</div>
+					<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+						{t.features.items.map((f) => (
+							<div class="bg-paper text-ink rounded-2xl p-5.5 flex flex-col gap-2.5">
+								<span class="w-8.5 h-8.5 rounded-[9px] bg-gradient-to-br from-accent-a to-accent-b grid place-items-center">
+									<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4.5 h-4.5"><path d={f.path}/></svg>
+								</span>
+								<h3 class="font-mono text-[15px] mt-1">{f.title}</h3>
+								<p class="text-[14px] text-[#4a4536] m-0">{f.text}</p>
+							</div>
+						))}
+					</div>
+				</div>
+			</section>
+
+			<section id="como-funciona" class="border-t border-line py-19">
+				<div class="wrap">
+					<div class="max-w-[56ch] mb-10">
+						<span class="font-mono text-[13px] tracking-[0.08em] uppercase text-ink-faint">{t.como.eyebrow}</span>
+						<h2 class="font-mono text-[26px] text-paper-2 my-2.5 text-balance">{t.como.title}</h2>
+					</div>
+					<div class="grid grid-cols-1 md:grid-cols-3 gap-7 [counter-reset:step]">
+						{t.como.steps.map((s) => (
+							<div class="step">
+								<h3 class="font-mono text-[15px] text-paper-2 mt-0.5 mb-2">{s.title}</h3>
+								<p class="text-[14.5px] text-ink-soft m-0">{s.text}</p>
+							</div>
+						))}
+						<div class="step">
+							<h3 class="font-mono text-[15px] text-paper-2 mt-0.5 mb-2">{t.como.keyboardTitle}</h3>
+							<p class="text-[14.5px] text-ink-soft m-0">{t.como.keyboardTextPre}<span class="kbd kbd-sm">⌘1</span>–<span class="kbd kbd-sm">⌘9</span>{t.como.keyboardTextMid}<span class="kbd kbd-sm">⌘0</span>{t.como.keyboardTextPost}</p>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section id="requisitos" class="border-t border-line py-19">
+				<div class="wrap">
+					<div class="max-w-[56ch] mb-10">
+						<span class="font-mono text-[13px] tracking-[0.08em] uppercase text-ink-faint">{t.requisitos.eyebrow}</span>
+						<h2 class="font-mono text-[26px] text-paper-2 my-2.5 text-balance">{t.requisitos.title}</h2>
+					</div>
+					<ul class="list-none p-0 m-0 grid gap-3">
+						{t.requisitos.items.map((item, i) => (
+							<li class={`flex gap-3 items-baseline text-[15px] text-ink-soft pb-3 ${i < t.requisitos.items.length - 1 ? "border-b border-line" : ""}`}>
+								<b class="font-mono text-[13px] text-paper-2 min-w-[15ch]">{item.label}</b> {item.text}
+							</li>
+						))}
+					</ul>
+				</div>
+			</section>
+		</main>
+
+		<footer class="border-t border-line py-11 pb-15">
+			<div class="wrap flex justify-between items-start gap-6 flex-wrap">
+				<p class="text-[13px] text-ink-faint max-w-[48ch] m-0">{t.footer.disclaimer}</p>
+				<div class="flex gap-4.5 font-mono text-[13px]">
+					<a href={repoUrl} class="text-ink-soft hover:text-paper">{t.footer.github}</a>
+					<a href={`${repoUrl}/blob/main/LICENSE`} class="text-ink-soft hover:text-paper">{t.footer.license}</a>
+				</div>
+			</div>
+		</footer>
+
+		<script>
+			const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+			const stack = document.getElementById("stack");
+			if (stack) {
+				if (reduce) {
+					stack.classList.add("settled");
+				} else {
+					setTimeout(() => stack.classList.add("settled"), 900);
+				}
+			}
+		</script>
+
+		<style>
+			.wrap {
+				max-width: 1040px;
+				margin: 0 auto;
+				padding: 0 28px;
+			}
+
+			.accent-text {
+				background: linear-gradient(100deg, var(--color-accent-b), var(--color-key));
+				-webkit-background-clip: text;
+				background-clip: text;
+				color: transparent;
+			}
+
+			.btn {
+				font-family: var(--font-mono);
+				font-size: 14px;
+				font-weight: 600;
+				text-decoration: none;
+				padding: 13px 20px;
+				border-radius: 10px;
+				display: inline-flex;
+				align-items: center;
+				gap: 8px;
+				transition: transform 0.15s ease;
+			}
+			.btn:hover, .btn:focus-visible { transform: translateY(-1px); }
+
+			.kbd {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				min-width: 1.6em;
+				padding: 0.15em 0.5em;
+				font-family: var(--font-mono);
+				font-size: 0.8em;
+				font-weight: 600;
+				color: var(--color-ink);
+				background: linear-gradient(180deg, #ffd9a0, var(--color-key));
+				border-radius: 6px;
+				box-shadow: 0 2px 0 rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+			}
+			.kbd-sm { font-size: 10.5px; }
+
+			.stack {
+				position: relative;
+				height: 300px;
+			}
+			@media (max-width: 767px) {
+				.stack { height: 260px; margin-top: 20px; }
+			}
+
+			.win {
+				position: absolute;
+				width: 260px;
+				left: 50%;
+				background: var(--color-paper-2);
+				border-radius: 12px;
+				box-shadow: 0 20px 40px -16px rgba(0, 0, 0, 0.55);
+				padding: 14px 16px;
+				transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+			}
+			.win-row { display: flex; align-items: center; gap: 10px; padding: 6px 0; }
+			.dot { width: 20px; height: 20px; border-radius: 6px; flex: none; }
+			.win-name { font-family: var(--font-serif); font-size: 13px; color: var(--color-ink); flex: 1; }
+			.win-head { font-family: var(--font-mono); font-size: 11px; color: #8b8578; margin-bottom: 8px; letter-spacing: 0.03em; }
+
+			.win.w1 { transform: translate(-130px, 0px) rotate(-9deg); z-index: 1; }
+			.win.w2 { transform: translate(-40px, 34px) rotate(6deg); z-index: 2; }
+			.win.w3 { transform: translate(50px, -18px) rotate(-3deg); z-index: 3; }
+			.win.w4 { transform: translate(-84px, 90px) rotate(2deg); z-index: 4; }
+
+			.stack.settled .win.w1 { transform: translate(-130px, -84px) rotate(0deg); }
+			.stack.settled .win.w2 { transform: translate(-130px, 0px) rotate(0deg); }
+			.stack.settled .win.w3 { transform: translate(-130px, 84px) rotate(0deg); }
+			.stack.settled .win.w4 { transform: translate(-130px, 168px) rotate(0deg); opacity: 0; }
+
+			@media (prefers-reduced-motion: reduce) {
+				.win { transition: none; }
+			}
+
+			.step {
+				position: relative;
+				padding-left: 44px;
+				counter-increment: step;
+			}
+			.step::before {
+				content: counter(step);
+				position: absolute;
+				left: 0;
+				top: 0;
+				font-family: var(--font-mono);
+				font-size: 13px;
+				width: 28px;
+				height: 28px;
+				border-radius: 50%;
+				border: 1px solid var(--color-line);
+				display: grid;
+				place-items: center;
+				color: var(--color-ink-faint);
+			}
+		</style>
+	</body>
+</html>
