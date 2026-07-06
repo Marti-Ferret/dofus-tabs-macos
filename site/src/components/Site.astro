@@ -12,7 +12,10 @@ const t = translations[lang];
 const langLabels: Record<Lang, string> = { es: "ES", en: "EN", fr: "FR" };
 
 const repoUrl = "https://github.com/Marti-Ferret/dofus-tabs-macos";
-const releasesUrl = `${repoUrl}/releases/latest`;
+// Descarga directa del asset (sin pasar por la página de la release en GitHub).
+// El nombre del archivo tiene que ser siempre este mismo en cada release nueva
+// para que el enlace no se rompa — ver la nota en "Descargar e instalar" del README.
+const downloadUrl = `${repoUrl}/releases/latest/download/DofusTabs-macos.dmg`;
 const coffeeUrl = "https://buymeacoffee.com/martiferretc";
 ---
 
@@ -65,7 +68,7 @@ const coffeeUrl = "https://buymeacoffee.com/martiferretc";
 						<span class="kbd">⌘1</span>–<span class="kbd">⌘9</span>{t.hero.ledePost}
 					</p>
 					<div class="flex flex-wrap gap-3.5">
-						<a href={releasesUrl} class="btn bg-gradient-to-br from-accent-a to-accent-b text-white shadow-[0_8px_24px_-8px_rgba(92,51,217,0.6)]">{t.hero.ctaDownload}</a>
+						<a href={downloadUrl} class="btn bg-gradient-to-br from-accent-a to-accent-b text-white shadow-[0_8px_24px_-8px_rgba(92,51,217,0.6)]">{t.hero.ctaDownload}</a>
 						<a href={repoUrl} class="btn border border-line text-paper hover:border-ink-soft">{t.hero.ctaCode}</a>
 					</div>
 					<p class="mt-4 text-[12.5px] font-mono text-ink-faint">{t.hero.fineprint}</p>

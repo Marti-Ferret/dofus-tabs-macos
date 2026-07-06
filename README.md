@@ -13,13 +13,14 @@ Organizador de ventanas multicuenta para Dofus, nativo de macOS. Proyecto de fan
 
 ## Descargar e instalar
 
-1. Descarga el `.zip` de la [última release](../../releases/latest) y descomprímelo.
-2. Arrastra `DofusTabs.app` a tu carpeta `/Applications` (opcional, pero recomendado).
-3. **Primer arranque:** la app no está firmada con un certificado de pago de Apple (Developer ID), así que macOS la bloqueará con un aviso de "desarrollador no identificado". Para abrirla la primera vez: clic derecho (o Ctrl+clic) sobre `DofusTabs.app` → **Abrir** → confirmar en el diálogo. Solo hace falta esta vez; a partir de ahí abre normal con doble clic.
-4. Al arrancar, macOS pedirá permiso de **Accesibilidad** y de **Grabación de pantalla** (Ajustes del Sistema → Privacidad y Seguridad) — sin el primero la app no puede detectar ni enfocar ventanas de Dofus; sin el segundo, funciona pero sin miniaturas de personaje.
-5. Abre tus cuentas de Dofus y haz clic en el icono **"DT"** de la barra de menú.
+1. Descarga el `.dmg` — [enlace directo](https://github.com/Marti-Ferret/dofus-tabs-macos/releases/latest/download/DofusTabs-macos.dmg) o desde la [página de la última release](../../releases/latest).
+2. Ábrelo y arrastra `DofusTabs` a la carpeta `Applications` en la misma ventana.
+3. Expulsa el `.dmg` (icono junto al nombre en Finder) y abre la app desde `/Applications`.
+4. **Primer arranque:** la app no está firmada con un certificado de pago de Apple (Developer ID), así que macOS la bloqueará con un aviso de "desarrollador no identificado". Para abrirla la primera vez: clic derecho (o Ctrl+clic) sobre `DofusTabs.app` → **Abrir** → confirmar en el diálogo. Solo hace falta esta vez; a partir de ahí abre normal con doble clic.
+5. Al arrancar, macOS pedirá permiso de **Accesibilidad** y de **Grabación de pantalla** (Ajustes del Sistema → Privacidad y Seguridad) — sin el primero la app no puede detectar ni enfocar ventanas de Dofus; sin el segundo, funciona pero sin miniaturas de personaje.
+6. Abre tus cuentas de Dofus y haz clic en el icono **"DT"** de la barra de menú.
 
-No hay auto-actualización todavía: para actualizar, repite el paso 1-3 con la release nueva.
+No hay auto-actualización todavía: para actualizar, repite el paso 1-4 con la release nueva.
 
 ## Estado actual (MVP en construcción)
 
@@ -62,6 +63,18 @@ swift run
 # Compilar en release y empaquetar como DofusTabs.app
 ./scripts/build-app.sh
 open .build/DofusTabs.app
+
+# Generar el .dmg de distribución (instala create-dmg antes: brew install create-dmg)
+./scripts/build-dmg.sh
+```
+
+### Publicar una release nueva
+
+`scripts/build-dmg.sh` deja el instalador en `.build/DofusTabs-macos.dmg`. Para publicarlo en GitHub Releases, sube **dos copias**: una con nombre versionado (para el archivo histórico) y otra con el nombre estable `DofusTabs-macos.dmg` (de la que depende el enlace de descarga directa de la web y del README, vía `/releases/latest/download/DofusTabs-macos.dmg` — si el nombre cambia, ese enlace se rompe):
+
+```bash
+cp .build/DofusTabs-macos.dmg .build/DofusTabs-X.Y.Z-macos.dmg
+gh release upload vX.Y.Z .build/DofusTabs-macos.dmg .build/DofusTabs-X.Y.Z-macos.dmg
 ```
 
 El icono de la app ya está generado y versionado (`Resources/AppIcon.icns`). Si quieres regenerarlo (cambiar colores/símbolo), edita `scripts/generate-icon.swift` y vuelve a correr:
@@ -154,6 +167,7 @@ Resources/
   AppBundleLocalization/{en,es,fr}.lproj/ — InfoPlist.strings (localiza NSAccessibilityUsageDescription)
 scripts/
   build-app.sh                  — compila en release y empaqueta el .app (firma ad-hoc, copia el icono)
+  build-dmg.sh                  — genera el instalador .dmg (requiere create-dmg) a partir del .app empaquetado
   generate-icon.swift           — genera el iconset/.icns a partir de un símbolo del sistema
   generate-promo-images.swift   — genera el banner del README y la imagen social de GitHub
 research/market-research.md     — investigación de mercado y decisiones de stack
