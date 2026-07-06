@@ -5,6 +5,8 @@
 [![Licencia: MIT](https://img.shields.io/badge/Licencia-MIT-blue.svg)](LICENSE)
 ![Plataforma: macOS 13+](https://img.shields.io/badge/plataforma-macOS%2013%2B-lightgrey)
 
+<a href="https://buymeacoffee.com/martiferretc" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 40px !important;width: 145px !important;"></a>
+
 **[Sitio web](https://dofus-tabs-macos.vercel.app/)** · **[Descargar última release](../../releases/latest)**
 
 Organizador de ventanas multicuenta para Dofus, nativo de macOS. Proyecto de fan, sin afiliación con Ankama — ver la investigación de mercado y las decisiones de arquitectura en [research/market-research.md](research/market-research.md).

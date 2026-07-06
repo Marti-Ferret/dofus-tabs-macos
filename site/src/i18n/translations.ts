@@ -47,7 +47,7 @@ export interface SiteCopy {
 	features: { eyebrow: string; title: string; items: FeatureCopy[] };
 	como: { eyebrow: string; title: string; steps: StepCopy[]; keyboardTitle: string; keyboardTextPre: string; keyboardTextMid: string; keyboardTextPost: string };
 	requisitos: { eyebrow: string; title: string; items: RequirementCopy[] };
-	footer: { disclaimer: string; github: string; license: string };
+	footer: { disclaimer: string; github: string; license: string; coffee: string };
 }
 
 const featurePaths = [
@@ -126,6 +126,7 @@ export const translations: Record<Lang, SiteCopy> = {
 			disclaimer: "Dofus Tabs es un proyecto de fan, sin afiliación con Ankama. Dofus es marca registrada de Ankama. No incluye ni incluirá input broadcasting ni automatización de eventos del juego — solo gestión de ventanas.",
 			github: "GitHub",
 			license: "Licencia MIT",
+			coffee: "☕ Invítame a un café",
 		},
 	},
 
@@ -195,6 +196,7 @@ export const translations: Record<Lang, SiteCopy> = {
 			disclaimer: "Dofus Tabs is a fan project, not affiliated with Ankama. Dofus is a registered trademark of Ankama. It doesn't include, and never will, input broadcasting or game-event automation — window management only.",
 			github: "GitHub",
 			license: "MIT License",
+			coffee: "☕ Buy me a coffee",
 		},
 	},
 
@@ -264,6 +266,7 @@ export const translations: Record<Lang, SiteCopy> = {
 			disclaimer: "Dofus Tabs est un projet de fan, sans affiliation avec Ankama. Dofus est une marque déposée d'Ankama. Il n'inclut et n'inclura jamais d'input broadcasting ni d'automatisation des événements du jeu — uniquement de la gestion de fenêtres.",
 			github: "GitHub",
 			license: "Licence MIT",
+			coffee: "☕ Offrez-moi un café",
 		},
 	},
 };

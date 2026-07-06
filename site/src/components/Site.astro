@@ -13,6 +13,7 @@ const langLabels: Record<Lang, string> = { es: "ES", en: "EN", fr: "FR" };
 
 const repoUrl = "https://github.com/Marti-Ferret/dofus-tabs-macos";
 const releasesUrl = `${repoUrl}/releases/latest`;
+const coffeeUrl = "https://buymeacoffee.com/martiferretc";
 ---
 
 <html lang={lang}>
@@ -175,7 +176,8 @@ const releasesUrl = `${repoUrl}/releases/latest`;
 		<footer class="border-t border-line py-11 pb-15">
 			<div class="wrap flex justify-between items-start gap-6 flex-wrap">
 				<p class="text-[13px] text-ink-faint max-w-[48ch] m-0">{t.footer.disclaimer}</p>
-				<div class="flex gap-4.5 font-mono text-[13px]">
+				<div class="flex gap-4.5 font-mono text-[13px] items-center">
+					<a href={coffeeUrl} class="text-key hover:opacity-80 font-semibold">{t.footer.coffee}</a>
 					<a href={repoUrl} class="text-ink-soft hover:text-paper">{t.footer.github}</a>
 					<a href={`${repoUrl}/blob/main/LICENSE`} class="text-ink-soft hover:text-paper">{t.footer.license}</a>
 				</div>
