@@ -57,6 +57,8 @@ const featurePaths = [
 	"M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z",
 	"M12 3a9 9 0 100 18 9 9 0 000-18zM9 9l6 6M15 9l-6 6",
 	"M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8",
+	"M4 3l7 16 2-7 7-2z",
+	"M12 3a5 5 0 00-5 5v2.5l-2 4h14l-2-4V8a5 5 0 00-5-5zM9.5 18a2.5 2.5 0 005 0",
 ];
 
 export const translations: Record<Lang, SiteCopy> = {
@@ -98,6 +100,8 @@ export const translations: Record<Lang, SiteCopy> = {
 				{ title: "Organiza en cuadrícula", text: "Un atajo reparte todas las ventanas activas en pantalla, sin arrastrar nada a mano.", path: featurePaths[3] },
 				{ title: "Excluye a los mules", text: "Saca una cuenta de la rotación de atajos sin cerrarla — sigue en el menú, solo que fuera del ciclo.", path: featurePaths[4] },
 				{ title: "Arranca sola", text: "Actívala una vez y te espera en la barra de menú cada vez que enciendes el Mac.", path: featurePaths[5] },
+				{ title: "Panel flotante", text: "Arrastra una tarjeta con la cara de cada personaje a cualquier sitio de la pantalla — clic para cambiar de cuenta sin tocar el teclado.", path: featurePaths[6] },
+				{ title: "Se mantiene al día", text: "Te avisa solo cuando hay una versión nueva, sin tener que ir a mirar GitHub de vez en cuando.", path: featurePaths[7] },
 			],
 		},
 		como: {
@@ -168,6 +172,8 @@ export const translations: Record<Lang, SiteCopy> = {
 				{ title: "Arrange into a grid", text: "One shortcut spreads every active window across the screen — no dragging by hand.", path: featurePaths[3] },
 				{ title: "Exclude your mules", text: "Take an account out of the shortcut rotation without closing it — it stays in the menu, just out of the cycle.", path: featurePaths[4] },
 				{ title: "Starts on its own", text: "Turn it on once and it's waiting in the menu bar every time you start your Mac.", path: featurePaths[5] },
+				{ title: "Floating panel", text: "Drag a card with every character's face anywhere on screen — click to switch accounts without touching the keyboard.", path: featurePaths[6] },
+				{ title: "Stays up to date", text: "Lets you know on its own when a new version is out, no need to go check GitHub yourself.", path: featurePaths[7] },
 			],
 		},
 		como: {
@@ -238,6 +244,8 @@ export const translations: Record<Lang, SiteCopy> = {
 				{ title: "Organise en grille", text: "Un raccourci répartit toutes les fenêtres actives à l'écran, sans rien glisser à la main.", path: featurePaths[3] },
 				{ title: "Exclut vos mules", text: "Sortez un compte de la rotation des raccourcis sans le fermer — il reste dans le menu, juste hors du cycle.", path: featurePaths[4] },
 				{ title: "Se lance toute seule", text: "Activez-la une fois et elle vous attend dans la barre de menu à chaque démarrage de votre Mac.", path: featurePaths[5] },
+				{ title: "Panneau flottant", text: "Faites glisser une carte avec le visage de chaque personnage n'importe où à l'écran — cliquez pour changer de compte sans toucher au clavier.", path: featurePaths[6] },
+				{ title: "Toujours à jour", text: "Vous prévient tout seul quand une nouvelle version sort, pas besoin d'aller vérifier sur GitHub.", path: featurePaths[7] },
 			],
 		},
 		como: {

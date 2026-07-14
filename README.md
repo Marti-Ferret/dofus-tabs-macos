@@ -20,7 +20,7 @@ Organizador de ventanas multicuenta para Dofus, nativo de macOS. Proyecto de fan
 5. Al arrancar, macOS pedirá permiso de **Accesibilidad** y de **Grabación de pantalla** (Ajustes del Sistema → Privacidad y Seguridad) — sin el primero la app no puede detectar ni enfocar ventanas de Dofus; sin el segundo, funciona pero sin miniaturas de personaje.
 6. Abre tus cuentas de Dofus y haz clic en el icono **"DT"** de la barra de menú.
 
-No hay auto-actualización todavía: para actualizar, repite el paso 1-4 con la release nueva.
+La app te avisa sola cuando hay una versión nueva (al arrancar, y también desde "Buscar actualizaciones…" en el menú) — pero la descarga e instalación siguen siendo manuales: te lleva a la release en GitHub, repite el paso 1-4 desde ahí.
 
 ## Estado actual (MVP en construcción)
 
@@ -49,6 +49,7 @@ No hay auto-actualización todavía: para actualizar, repite el paso 1-4 con la 
 - El formato del título de ventana (`parseCharacterName` en `DofusWindowManager.swift` asume `"Nombre - Clase - Version - Release"`, calcado del formato de Windows).
 - El tileado (`WindowArranger`) asume pantalla principal única; en multi-monitor solo organiza sobre `NSScreen.screens.first`.
 - La localización en inglés/francés se verificó compilando y leyendo el `.strings` resultante (`Bundle.module` con `defaultLocalization`), pero no se ha confirmado visualmente abriendo el menú desplegable con el sistema en esos idiomas — se evitó automatizar clics cerca de una sesión de Dofus real abierta en ese momento.
+- `UpdateChecker`: la lógica de comparación de versiones se verificó de forma aislada (sin red) y el chequeo real contra la v0.1.0 actual confirma que detecta correctamente "sin novedades" — pero no se ha visto en vivo el caso "hay versión nueva" dentro de la propia app (haría falta una release más nueva publicada para probarlo de verdad).
 
 ## Requisitos
 
@@ -143,38 +144,38 @@ swift run DofusTabs -AppleLanguages '(fr)'
 ## Estructura del proyecto
 
 ```
-Package.swift                 — definición del paquete SPM (ejecutable, macOS 13+)
+Package.swift                    — definición del paquete SPM (ejecutable, macOS 13+)
 Sources/DofusTabs/
-  main.swift                   — punto de entrada, arranca NSApplication como .accessory
-  AppDelegate.swift             — NSStatusItem, menú, hotkeys, ciclo de refresco, apertura de Ajustes
-  DofusWindowManager.swift      — detección de procesos/ventanas Dofus vía AXUIElement, miniaturas, exclusión/orden
-  HotkeyManager.swift           — registro de atajos globales vía Carbon RegisterEventHotKey (soporta varios a la vez)
-  CharacterOrderStore.swift     — persiste el orden de personajes en UserDefaults para que Cmd+N sea estable entre sesiones
-  WindowRotationSettings.swift  — persiste qué personajes están excluidos de la rotación de hotkeys
-  WindowArranger.swift          — tileado de ventanas en cuadrícula sobre la pantalla principal
-  LaunchAtLoginManager.swift    — envoltorio sobre SMAppService para arrancar al iniciar sesión
-  HotkeyBinding.swift           — modelo tecla+modificadores, conversión NSEvent↔Carbon y formato para mostrar (ej. "⌘1")
-  HotkeyPreferencesStore.swift  — persiste en UserDefaults la combinación asignada a cada atajo (ciclo, organizar, cada posición directa)
-  HotkeyRecorderView.swift      — botón SwiftUI "clica y pulsa la tecla" para reasignar un atajo
-  SettingsView.swift            — vista SwiftUI de la ventana de Ajustes
-  SettingsWindowController.swift — aloja SettingsView en una NSWindow normal de AppKit
-  FloatingPanelView.swift       — contenido SwiftUI del panel flotante (lista de personajes + tirador de arrastre)
-  FloatingPanelController.swift — aloja FloatingPanelView en un NSPanel (.nonactivatingPanel, siempre encima, posición recordada)
-  UpdateChecker.swift            — compara la versión instalada contra la última release de GitHub (API pública, sin autenticación)
-  NSImage+Rounded.swift         — helper para redondear esquinas de las miniaturas
-  L10n.swift                    — acceso centralizado a las cadenas localizadas (Bundle.module)
-  AppLanguage.swift             — desplegable de idioma: fuerza AppleLanguages y relanza la app
-  Resources/{en,es,fr}.lproj/   — Localizable.strings, recursos de SwiftPM (defaultLocalization: en)
+  main.swift                      — punto de entrada, arranca NSApplication como .accessory
+  AppDelegate.swift                — NSStatusItem, menú, hotkeys, ciclo de refresco, apertura de Ajustes
+  DofusWindowManager.swift         — detección de procesos/ventanas Dofus vía AXUIElement, miniaturas, exclusión/orden
+  HotkeyManager.swift              — registro de atajos globales vía Carbon RegisterEventHotKey (soporta varios a la vez)
+  CharacterOrderStore.swift        — persiste el orden de personajes en UserDefaults para que Cmd+N sea estable entre sesiones
+  WindowRotationSettings.swift     — persiste qué personajes están excluidos de la rotación de hotkeys
+  WindowArranger.swift             — tileado de ventanas en cuadrícula sobre la pantalla principal
+  LaunchAtLoginManager.swift       — envoltorio sobre SMAppService para arrancar al iniciar sesión
+  HotkeyBinding.swift              — modelo tecla+modificadores, conversión NSEvent↔Carbon y formato para mostrar (ej. "⌘1")
+  HotkeyPreferencesStore.swift     — persiste en UserDefaults la combinación asignada a cada atajo (ciclo, organizar, cada posición directa)
+  HotkeyRecorderView.swift         — botón SwiftUI "clica y pulsa la tecla" para reasignar un atajo
+  SettingsView.swift               — vista SwiftUI de la ventana de Ajustes
+  SettingsWindowController.swift   — aloja SettingsView en una NSWindow normal de AppKit
+  FloatingPanelView.swift          — contenido SwiftUI del panel flotante (lista de personajes + tirador de arrastre)
+  FloatingPanelController.swift    — aloja FloatingPanelView en un NSPanel (.nonactivatingPanel, siempre encima, posición recordada)
+  UpdateChecker.swift              — compara la versión instalada contra la última release de GitHub (API pública, sin autenticación)
+  NSImage+Rounded.swift            — helper para redondear esquinas de las miniaturas
+  L10n.swift                       — acceso centralizado a las cadenas localizadas (Bundle.module)
+  AppLanguage.swift                — desplegable de idioma: fuerza AppleLanguages y relanza la app
+  Resources/{en,es,fr}.lproj/      — Localizable.strings, recursos de SwiftPM (defaultLocalization: en)
 Resources/
-  Info.plist                    — bundle info, LSUIElement=true (sin icono en Dock), CFBundleIconFile=AppIcon, CFBundleLocalizations
-  AppIcon.icns                  — icono de la app (versionado; AppIcon.iconset/ es intermedio y no se versiona)
+  Info.plist                       — bundle info, LSUIElement=true (sin icono en Dock), CFBundleIconFile=AppIcon, CFBundleLocalizations
+  AppIcon.icns                     — icono de la app (versionado; AppIcon.iconset/ es intermedio y no se versiona)
   AppBundleLocalization/{en,es,fr}.lproj/ — InfoPlist.strings (localiza NSAccessibilityUsageDescription)
 scripts/
-  build-app.sh                  — compila en release y empaqueta el .app (firma ad-hoc, copia el icono)
-  build-dmg.sh                  — genera el instalador .dmg (requiere create-dmg) a partir del .app empaquetado
-  generate-icon.swift           — genera el iconset/.icns a partir de un símbolo del sistema
-  generate-promo-images.swift   — genera el banner del README y la imagen social de GitHub
-research/market-research.md     — investigación de mercado y decisiones de stack
+  build-app.sh                     — compila en release y empaqueta el .app (firma ad-hoc, copia el icono)
+  build-dmg.sh                     — genera el instalador .dmg (requiere create-dmg) a partir del .app empaquetado
+  generate-icon.swift              — genera el iconset/.icns a partir de un símbolo del sistema
+  generate-promo-images.swift      — genera el banner del README y la imagen social de GitHub
+research/market-research.md        — investigación de mercado y decisiones de stack
 site/                           — landing page del proyecto (Astro + Tailwind v4), desplegada en Vercel
 ```
 
@@ -188,6 +189,8 @@ Todos son reasignables desde Ajustes (`Cmd+,`) — clic en el botón del atajo y
 | `Cmd+1`...`Cmd+9` | Saltar directo al personaje en esa posición (según orden en Ajustes) |
 | `Cmd+0` | Organizar/tilear todas las ventanas activas en pantalla |
 | `Cmd+,` (desde el menú) | Abrir Ajustes — este no es reasignable |
+
+El panel flotante ("Panel flotante" en el menú) y la comprobación manual de actualizaciones ("Buscar actualizaciones…") no tienen atajo por defecto — solo se accede desde el menú, para no añadir más combinaciones de las necesarias.
 
 ## Sobre el proyecto
 
