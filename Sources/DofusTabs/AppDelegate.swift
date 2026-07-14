@@ -23,6 +23,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         hotkeyStore: hotkeyStore
     )
     private let floatingPanelVisibleKey = "com.martiferretc.dofustabs.floatingPanelVisible"
+    private var availableUpdate: UpdateChecker.UpdateResult?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         requestAccessibilityPermissionIfNeeded()
@@ -54,6 +55,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
         if UserDefaults.standard.bool(forKey: floatingPanelVisibleKey) {
             floatingPanelController.show()
+        }
+
+        // Comprobación silenciosa al arrancar: si hay versión nueva, solo se
+        // añade el aviso al menú (sin interrumpir con una alerta). El chequeo
+        // manual desde el menú sí da feedback explícito, éste no.
+        UpdateChecker.checkForUpdate { [weak self] result in
+            guard let self, let result else { return }
+            self.availableUpdate = result
+            self.rebuildMenu(includeThumbnails: false)
         }
     }
 
@@ -151,6 +161,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         guard let menu = statusItem.menu else { return }
         menu.removeAllItems()
 
+        if let availableUpdate {
+            let updateItem = NSMenuItem(
+                title: L10n.menuUpdateAvailable(version: availableUpdate.version),
+                action: #selector(openUpdateURL),
+                keyEquivalent: ""
+            )
+            updateItem.target = self
+            menu.addItem(updateItem)
+            menu.addItem(NSMenuItem.separator())
+        }
+
         let windows = windowManager.windows
         let active = windowManager.activeWindows
 
@@ -223,6 +244,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         refreshItem.target = self
         menu.addItem(refreshItem)
 
+        let checkUpdatesItem = NSMenuItem(
+            title: L10n.menuCheckForUpdates,
+            action: #selector(checkForUpdatesNow),
+            keyEquivalent: ""
+        )
+        checkUpdatesItem.target = self
+        menu.addItem(checkUpdatesItem)
+
         let quitItem = NSMenuItem(title: L10n.menuQuit, action: #selector(quit), keyEquivalent: "q")
         quitItem.target = self
         menu.addItem(quitItem)
@@ -240,6 +269,52 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     @objc private func toggleFloatingPanel() {
         floatingPanelController.toggle()
         UserDefaults.standard.set(floatingPanelController.isVisible, forKey: floatingPanelVisibleKey)
+    }
+
+    @objc private func openUpdateURL() {
+        guard let availableUpdate else { return }
+        NSWorkspace.shared.open(availableUpdate.releaseURL)
+    }
+
+    /// A diferencia del chequeo silencioso al arrancar, este sí da feedback
+    /// explícito (con alerta) en los dos casos — lo pidió el usuario a propósito.
+    @objc private func checkForUpdatesNow() {
+        UpdateChecker.checkForUpdate { [weak self] result in
+            guard let self else { return }
+
+            guard let result else {
+                self.presentAlert(
+                    title: L10n.updateUpToDateTitle,
+                    message: L10n.updateUpToDateMessage,
+                    buttons: [L10n.updateOkButton]
+                )
+                return
+            }
+
+            self.availableUpdate = result
+            self.rebuildMenu(includeThumbnails: false)
+
+            let choice = self.presentAlert(
+                title: L10n.updateAvailableTitle,
+                message: L10n.updateAvailableMessage(version: result.version),
+                buttons: [L10n.updateDownloadButton, L10n.updateLaterButton]
+            )
+            if choice == .alertFirstButtonReturn {
+                NSWorkspace.shared.open(result.releaseURL)
+            }
+        }
+    }
+
+    @discardableResult
+    private func presentAlert(title: String, message: String, buttons: [String]) -> NSApplication.ModalResponse {
+        NSApp.activate(ignoringOtherApps: true)
+        let alert = NSAlert()
+        alert.messageText = title
+        alert.informativeText = message
+        for button in buttons {
+            alert.addButton(withTitle: button)
+        }
+        return alert.runModal()
     }
 
     @objc private func openSettings() {

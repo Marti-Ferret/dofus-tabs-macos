@@ -30,3 +30,14 @@
 "language.restart_message" = "Dofus Tabs doit redémarrer pour s'afficher dans la langue choisie.";
 "language.restart_now" = "Redémarrer maintenant";
 "language.restart_later" = "Plus tard";
+
+/* Mises à jour */
+"menu.update_available" = "★ Version %@ disponible";
+"menu.check_for_updates" = "Rechercher des mises à jour…";
+"update.available_title" = "Une nouvelle version est disponible";
+"update.available_message" = "La version %@ est maintenant disponible. Voulez-vous la télécharger ?";
+"update.download_button" = "Télécharger";
+"update.later_button" = "Plus tard";
+"update.up_to_date_title" = "Vous êtes à jour";
+"update.up_to_date_message" = "Dofus Tabs est déjà à jour.";
+"update.ok_button" = "OK";

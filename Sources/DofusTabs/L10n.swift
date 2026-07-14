@@ -32,6 +32,20 @@ enum L10n {
     static var languageRestartNow: String { string("language.restart_now") }
     static var languageRestartLater: String { string("language.restart_later") }
 
+    static func menuUpdateAvailable(version: String) -> String {
+        String(format: string("menu.update_available"), version)
+    }
+    static var menuCheckForUpdates: String { string("menu.check_for_updates") }
+    static var updateAvailableTitle: String { string("update.available_title") }
+    static func updateAvailableMessage(version: String) -> String {
+        String(format: string("update.available_message"), version)
+    }
+    static var updateDownloadButton: String { string("update.download_button") }
+    static var updateLaterButton: String { string("update.later_button") }
+    static var updateUpToDateTitle: String { string("update.up_to_date_title") }
+    static var updateUpToDateMessage: String { string("update.up_to_date_message") }
+    static var updateOkButton: String { string("update.ok_button") }
+
     private static func string(_ key: String) -> String {
         localizedBundle.localizedString(forKey: key, value: nil, table: "Localizable")
     }

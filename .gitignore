@@ -7,3 +7,4 @@ Resources/AppIcon.iconset/
 docs/
 site/dist/
 site/node_modules/
+.vscode/
