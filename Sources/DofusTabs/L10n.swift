@@ -9,6 +9,7 @@ enum L10n {
     static var menuSettings: String { string("menu.settings") }
     static var menuRefresh: String { string("menu.refresh") }
     static var menuQuit: String { string("menu.quit") }
+    static var menuFloatingPanel: String { string("menu.floating_panel") }
 
     static var settingsWindowTitle: String { string("settings.window_title") }
     static var settingsCharactersDetected: String { string("settings.characters_detected") }

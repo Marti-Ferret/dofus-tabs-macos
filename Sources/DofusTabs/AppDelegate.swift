@@ -18,6 +18,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private var lastHotkeySignature: [String] = []
     private var refreshTimer: Timer?
     private var settingsWindowController: SettingsWindowController?
+    private lazy var floatingPanelController = FloatingPanelController(
+        windowManager: windowManager,
+        hotkeyStore: hotkeyStore
+    )
+    private let floatingPanelVisibleKey = "com.martiferretc.dofustabs.floatingPanelVisible"
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         requestAccessibilityPermissionIfNeeded()
@@ -45,6 +50,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             self?.refreshAndSyncHotkeys()
             self?.updateStatusItemTitle()
             self?.rebuildMenu(includeThumbnails: false)
+        }
+
+        if UserDefaults.standard.bool(forKey: floatingPanelVisibleKey) {
+            floatingPanelController.show()
         }
     }
 
@@ -195,6 +204,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         arrangeItem.target = self
         menu.addItem(arrangeItem)
 
+        let floatingPanelItem = NSMenuItem(
+            title: L10n.menuFloatingPanel,
+            action: #selector(toggleFloatingPanel),
+            keyEquivalent: ""
+        )
+        floatingPanelItem.target = self
+        floatingPanelItem.state = floatingPanelController.isVisible ? .on : .off
+        menu.addItem(floatingPanelItem)
+
         let settingsItem = NSMenuItem(title: L10n.menuSettings, action: #selector(openSettings), keyEquivalent: ",")
         settingsItem.target = self
         menu.addItem(settingsItem)
@@ -217,6 +235,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     @objc private func arrangeNow() {
         arrangeWindowsNow()
+    }
+
+    @objc private func toggleFloatingPanel() {
+        floatingPanelController.toggle()
+        UserDefaults.standard.set(floatingPanelController.isVisible, forKey: floatingPanelVisibleKey)
     }
 
     @objc private func openSettings() {

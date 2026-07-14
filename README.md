@@ -38,7 +38,7 @@ No hay auto-actualización todavía: para actualizar, repite el paso 1-4 con la 
 - [x] Icono propio de la app (generado con `scripts/generate-icon.swift`, degradado morado→azul con símbolo de capas)
 - [x] App localizada en español, inglés y francés (`Resources/{en,es,fr}.lproj`, vía `Bundle.module`), con desplegable en Ajustes para forzar el idioma (`AppLanguage` + `LanguagePreferenceStore`) además del automático por sistema — el cambio pide reiniciar la app para aplicarse limpio
 - [x] Web localizada en los mismos 3 idiomas (`/`, `/en/`, `/fr/`), con selector en la cabecera
-- [ ] Overlay flotante siempre visible como alternativa al menú desplegable
+- [x] Panel flotante (`NSPanel`, alternativa al menú desplegable): lista de personajes con miniatura, número y atajo, clic para cambiar de ventana con el ratón; arrastrable a cualquier sitio de la pantalla (posición recordada entre sesiones) y se muestra/oculta desde "Panel flotante" en el menú
 - [ ] Icono de clase real de Dofus — **no implementado a propósito**: no tenemos acceso legítimo a esos assets (son de Ankama), así que se usa un icono genérico de repuesto en su lugar
 
 > Nota: el auto-foco al cambiar de turno **no hace falta construirlo** — confirmado que el propio Dofus ya pone en primer plano la ventana del personaje activo cuando hay varias cuentas abiertas. Se descartó como diferenciador (ver §5.5 de la investigación, corregida).
@@ -157,6 +157,8 @@ Sources/DofusTabs/
   HotkeyRecorderView.swift      — botón SwiftUI "clica y pulsa la tecla" para reasignar un atajo
   SettingsView.swift            — vista SwiftUI de la ventana de Ajustes
   SettingsWindowController.swift — aloja SettingsView en una NSWindow normal de AppKit
+  FloatingPanelView.swift       — contenido SwiftUI del panel flotante (lista de personajes + tirador de arrastre)
+  FloatingPanelController.swift — aloja FloatingPanelView en un NSPanel (.nonactivatingPanel, siempre encima, posición recordada)
   NSImage+Rounded.swift         — helper para redondear esquinas de las miniaturas
   L10n.swift                    — acceso centralizado a las cadenas localizadas (Bundle.module)
   AppLanguage.swift             — desplegable de idioma: fuerza AppleLanguages y relanza la app

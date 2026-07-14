@@ -5,6 +5,7 @@
 "menu.settings" = "Ajustes…";
 "menu.refresh" = "Actualizar";
 "menu.quit" = "Salir";
+"menu.floating_panel" = "Panel flotante";
 
 /* Ventana de Ajustes */
 "settings.window_title" = "Ajustes de Dofus Tabs";

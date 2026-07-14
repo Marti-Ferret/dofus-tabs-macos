@@ -5,6 +5,7 @@
 "menu.settings" = "Settings…";
 "menu.refresh" = "Refresh";
 "menu.quit" = "Quit";
+"menu.floating_panel" = "Floating panel";
 
 /* Settings window */
 "settings.window_title" = "Dofus Tabs Settings";
