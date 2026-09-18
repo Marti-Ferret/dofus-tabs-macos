@@ -24,7 +24,7 @@ final class CharacterOrderStore {
             defaults.set(order, forKey: defaultsKey)
         }
 
-        let rank = Dictionary(uniqueKeysWithValues: order.enumerated().map { ($1, $0) })
+        let rank = Dictionary(order.enumerated().map { ($1, $0) }, uniquingKeysWith: { first, _ in first })
         return names.sorted { (rank[$0] ?? .max) < (rank[$1] ?? .max) }
     }
 

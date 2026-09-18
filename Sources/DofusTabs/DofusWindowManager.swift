@@ -60,7 +60,7 @@ final class DofusWindowManager {
         // Orden estable entre refrescos/reinicios, para que los atajos
         // directos (Cmd+1...Cmd+9) siempre apunten al mismo personaje.
         let orderedNames = orderStore.sort(result.map { $0.characterName })
-        let rank = Dictionary(uniqueKeysWithValues: orderedNames.enumerated().map { ($1, $0) })
+        let rank = Dictionary(orderedNames.enumerated().map { ($1, $0) }, uniquingKeysWith: { first, _ in first })
         result.sort { (rank[$0.characterName] ?? .max) < (rank[$1.characterName] ?? .max) }
 
         windows = result
