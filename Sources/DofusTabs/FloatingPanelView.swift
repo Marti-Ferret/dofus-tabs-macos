@@ -1,8 +1,8 @@
 import SwiftUI
 import AppKit
 
-/// Contenido del panel flotante: lista de personajes con miniatura, número
-/// y atajo asignado (si tiene). Clic en una fila enfoca esa ventana — pensado
+/// Contenido del panel flotante: lista de personajes con número y atajo
+/// asignado (si tiene). Clic en una fila enfoca esa ventana — pensado
 /// para cambiar de cuenta con el ratón sin tocar el teclado.
 struct FloatingPanelView: View {
     let windowManager: DofusWindowManager
@@ -10,11 +10,6 @@ struct FloatingPanelView: View {
 
     @State private var windows: [DofusWindow] = []
     @State private var refreshTimer: Timer?
-
-    private static let fallbackThumbnail = NSImage(
-        systemSymbolName: "person.crop.square.fill",
-        accessibilityDescription: nil
-    )
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -69,12 +64,6 @@ struct FloatingPanelView: View {
                     .font(.system(size: 11, weight: .semibold, design: .monospaced))
                     .foregroundStyle(.secondary)
                     .frame(width: 14, alignment: .trailing)
-
-                Image(nsImage: windowManager.thumbnail(for: window, maxDimension: 32) ?? Self.fallbackThumbnail ?? NSImage())
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 32, height: 32)
-                    .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
 
                 VStack(alignment: .leading, spacing: 1) {
                     Text(window.characterName)

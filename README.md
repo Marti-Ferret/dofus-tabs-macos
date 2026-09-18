@@ -17,7 +17,7 @@ Organizador de ventanas multicuenta para Dofus, nativo de macOS. Proyecto de fan
 2. Ábrelo y arrastra `DofusTabs` a la carpeta `Applications` en la misma ventana.
 3. Expulsa el `.dmg` (icono junto al nombre en Finder) y abre la app desde `/Applications`.
 4. **Primer arranque:** la app no está firmada con un certificado de pago de Apple (Developer ID), así que macOS la bloqueará con un aviso de "desarrollador no identificado". Para abrirla la primera vez: clic derecho (o Ctrl+clic) sobre `DofusTabs.app` → **Abrir** → confirmar en el diálogo. Solo hace falta esta vez; a partir de ahí abre normal con doble clic.
-5. Al arrancar, macOS pedirá permiso de **Accesibilidad** y de **Grabación de pantalla** (Ajustes del Sistema → Privacidad y Seguridad) — sin el primero la app no puede detectar ni enfocar ventanas de Dofus; sin el segundo, funciona pero sin miniaturas de personaje.
+5. Al arrancar, macOS pedirá permiso de **Accesibilidad** (Ajustes del Sistema → Privacidad y Seguridad) — sin él la app no puede detectar ni enfocar ventanas de Dofus.
 6. Abre tus cuentas de Dofus y haz clic en el icono **"DT"** de la barra de menú.
 
 La app te avisa sola cuando hay una versión nueva (al arrancar, y también desde "Buscar actualizaciones…" en el menú) — pero la descarga e instalación siguen siendo manuales: te lleva a la release en GitHub, repite el paso 1-4 desde ahí.
@@ -29,7 +29,7 @@ La app te avisa sola cuando hay una versión nueva (al arrancar, y también desd
 - [x] Enumeración de ventanas por Accessibility API (`AXUIElement`, no AppleScript)
 - [x] Foco de ventana casi instantáneo (`AXUIElementPerformAction` + `NSRunningApplication.activate`)
 - [x] Listado de personajes en el menú, click para enfocar
-- [x] Miniatura (screenshot) de cada ventana junto al nombre, con esquinas redondeadas, capturada al abrir el menú; icono genérico de repuesto si no hay permiso de Grabación de pantalla o falla la captura
+- [x] Listado sin miniaturas (solo nombre y atajo) — se probaron capturas de pantalla de cada ventana pero se descartaron por el coste de recursos de recapturar periódicamente
 - [x] Atajo global cíclico `Cmd+1` (vía Carbon `RegisterEventHotKey`)
 - [x] Atajos directos por personaje (`Cmd+1`...`Cmd+9`) sobre las ventanas **activas** (no excluidas), en un orden persistido en `UserDefaults`
 - [x] Ventana de Ajustes (SwiftUI, `Cmd+,`): reordenar personajes con ▲▼, excluir/incluir una ventana de la rotación de hotkeys, arrancar al iniciar sesión (`SMAppService`)
@@ -38,7 +38,7 @@ La app te avisa sola cuando hay una versión nueva (al arrancar, y también desd
 - [x] Icono propio de la app (generado con `scripts/generate-icon.swift`, degradado morado→azul con símbolo de capas)
 - [x] App localizada en español, inglés y francés (`Resources/{en,es,fr}.lproj`, vía `Bundle.module`), con desplegable en Ajustes para forzar el idioma (`AppLanguage` + `LanguagePreferenceStore`) además del automático por sistema — el cambio pide reiniciar la app para aplicarse limpio
 - [x] Web localizada en los mismos 3 idiomas (`/`, `/en/`, `/fr/`), con selector en la cabecera
-- [x] Panel flotante (`NSPanel`, alternativa al menú desplegable): lista de personajes con miniatura, número y atajo, clic para cambiar de ventana con el ratón; arrastrable a cualquier sitio de la pantalla (posición recordada entre sesiones) y se muestra/oculta desde "Panel flotante" en el menú
+- [x] Panel flotante (`NSPanel`, alternativa al menú desplegable): lista de personajes con número y atajo, clic para cambiar de ventana con el ratón; arrastrable a cualquier sitio de la pantalla (posición recordada entre sesiones) y se muestra/oculta desde "Panel flotante" en el menú
 - [x] Comprobación de actualizaciones (`UpdateChecker`, sin Sparkle ni dependencias): compara la versión instalada contra la última release de GitHub. Chequeo silencioso al arrancar (solo añade un aviso al menú si hay algo nuevo) + "Buscar actualizaciones…" manual con confirmación explícita en los dos casos
 - [ ] Icono de clase real de Dofus — **no implementado a propósito**: no tenemos acceso legítimo a esos assets (son de Ankama), así que se usa un icono genérico de repuesto en su lugar
 
@@ -113,10 +113,9 @@ Para añadir un idioma nuevo a la web: añadir su entrada a `languages`/`transla
 
 Los enlaces "Descargar"/"Ver el código"/"GitHub"/"Licencia MIT" de `Site.astro` apuntan al repo real (`repoUrl` al principio del componente) — si el repo cambia de sitio algún día, es la única línea que hay que tocar.
 
-La primera vez, macOS pedirá dos permisos en Ajustes del Sistema → Privacidad y Seguridad:
+La primera vez, macOS pedirá un permiso en Ajustes del Sistema → Privacidad y Seguridad:
 
 - **Accesibilidad** — necesario para detectar ventanas, cambiar el foco y organizar/tilear ventanas (`AXIsProcessTrustedWithOptions`, se pide automáticamente al arrancar).
-- **Grabación de pantalla** — necesario para las miniaturas de personaje en el menú (`CGRequestScreenCaptureAccess`, también se pide al arrancar). Si se deniega, el menú sigue funcionando con un icono genérico en vez de la miniatura real.
 
 > Nota: al firmar en modo ad-hoc (`codesign --sign -`), la identidad de firma cambia en cada build, así que macOS puede volver a pedir el permiso de Accesibilidad tras cada recompilación. Para desarrollo esto es solo una molestia menor; para distribución hará falta un Developer ID real (ver §5.6 de la investigación).
 

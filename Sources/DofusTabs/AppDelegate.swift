@@ -4,11 +4,6 @@ import Carbon.HIToolbox
 final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private static let maxDirectSlots = 9
 
-    private static let fallbackThumbnail = NSImage(
-        systemSymbolName: "person.crop.square.fill",
-        accessibilityDescription: nil
-    )
-
     private var statusItem: NSStatusItem!
     private let windowManager = DofusWindowManager()
     private let hotkeyStore = HotkeyPreferencesStore()
@@ -27,7 +22,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         requestAccessibilityPermissionIfNeeded()
-        requestScreenRecordingPermissionIfNeeded()
 
         // variableLength (no squareLength) para que el ancho se ajuste al texto
         // "DT" / "DT 4" — squareLength es un cuadrado fijo muy estrecho pensado
@@ -41,16 +35,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
         refreshAndSyncHotkeys()
         updateStatusItemTitle()
-        rebuildMenu(includeThumbnails: false)
+        rebuildMenu()
         registerGlobalActionHotkeys()
 
-        // Refresco periódico ligero (sin capturas de pantalla) para que el
-        // conteo de personajes y los atajos directos estén al día aunque no
-        // se haya abierto el menú.
+        // Refresco periódico para que el conteo de personajes y los atajos
+        // directos estén al día aunque no se haya abierto el menú.
         refreshTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { [weak self] _ in
             self?.refreshAndSyncHotkeys()
             self?.updateStatusItemTitle()
-            self?.rebuildMenu(includeThumbnails: false)
+            self?.rebuildMenu()
         }
 
         if UserDefaults.standard.bool(forKey: floatingPanelVisibleKey) {
@@ -63,7 +56,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         UpdateChecker.checkForUpdate { [weak self] result in
             guard let self, let result else { return }
             self.availableUpdate = result
-            self.rebuildMenu(includeThumbnails: false)
+            self.rebuildMenu()
         }
     }
 
@@ -71,13 +64,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let promptKey = kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String
         let options: [String: Any] = [promptKey: true]
         _ = AXIsProcessTrustedWithOptions(options as CFDictionary)
-    }
-
-    private func requestScreenRecordingPermissionIfNeeded() {
-        // Las miniaturas de ventana necesitan este permiso además del de Accesibilidad.
-        if !CGPreflightScreenCaptureAccess() {
-            _ = CGRequestScreenCaptureAccess()
-        }
     }
 
     /// Ciclar y organizar ventanas usan la combinación que haya elegido el
@@ -148,16 +134,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         WindowArranger.tile(windowManager.activeWindows)
     }
 
-    /// Se llama justo antes de mostrar el menú: es el momento de pedir las
-    /// miniaturas (capturas de pantalla), en vez de hacerlo en cada refresh
-    /// periódico de fondo.
+    /// Se llama justo antes de mostrar el menú, para que refleje el estado
+    /// más reciente aunque el refresco periódico de fondo aún no haya pasado.
     func menuNeedsUpdate(_ menu: NSMenu) {
         refreshAndSyncHotkeys()
         updateStatusItemTitle()
-        rebuildMenu(includeThumbnails: true)
+        rebuildMenu()
     }
 
-    private func rebuildMenu(includeThumbnails: Bool) {
+    private func rebuildMenu() {
         guard let menu = statusItem.menu else { return }
         menu.removeAllItems()
 
@@ -206,10 +191,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
                         .foregroundColor: isExcluded ? NSColor.secondaryLabelColor : NSColor.labelColor
                     ]
                 )
-
-                item.image = includeThumbnails
-                    ? (windowManager.thumbnail(for: window) ?? Self.fallbackThumbnail)
-                    : Self.fallbackThumbnail
 
                 menu.addItem(item)
             }
@@ -292,7 +273,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             }
 
             self.availableUpdate = result
-            self.rebuildMenu(includeThumbnails: false)
+            self.rebuildMenu()
 
             let choice = self.presentAlert(
                 title: L10n.updateAvailableTitle,
@@ -328,7 +309,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
                     self?.lastHotkeySignature = []
                     self?.refreshAndSyncHotkeys()
                     self?.updateStatusItemTitle()
-                    self?.rebuildMenu(includeThumbnails: false)
+                    self?.rebuildMenu()
                 }
             )
             settingsWindowController = controller
@@ -353,7 +334,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     @objc private func refreshNow() {
         refreshAndSyncHotkeys()
         updateStatusItemTitle()
-        rebuildMenu(includeThumbnails: true)
+        rebuildMenu()
     }
 
     @objc private func quit() {
